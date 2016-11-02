@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script>
+    function drag(event){
+      event.dataTransfer.setData("text", event.target.id);
+    }
+    function drop(event){
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+    var data = event.dataTransfer.getData("text");
+    event.target.appendChild(document.getElementById(data));;
+    }
+    function allowDrop(event){
+      event.preventDefault();
+    }
+  </script>
+  <title>Document</title>
+  <style>
+    .block{
+      width: 200px;
+      height: 200px;
+      border: 1px solid black;
+      float: left;
+      margin: 20px;
+    }
+    .red{
+      width: 100%;
+      height: 100%;
+      background-color: rgb(219, 94, 94);
+    }
+  </style>
+</head>
+<body>
+<div class="block" ondragover="allowDrop(event);" ondrop="drop(event);">
+  <div id="dragblock" draggable="true" ondragstart="drag(event);" class="red"></div></div>
+<div class="block" id="drop_zone" ondragover="allowDrop(event);" ondrop="drop(event);"></div>
+
+</body>
+</html>

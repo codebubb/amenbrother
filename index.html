@@ -5,42 +5,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Amen Brother</title>
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    body{
+      margin: 50px;
+    }
+    .break{
+      width: 700px;
+      height: auto;
+      position: relative;
+    }
+    .break img{
+      width: 100%;
+    }
+    .slice{
+      position: absolute;
+      top: 0;
+      height: 100%;
+      border: 1px solid rgb(217, 219, 226);
+      background-color: rgba(29, 45, 102, 0.6);
+      cursor: pointer;
+    }
+
+  </style>
 </head>
 <body>
   <button id="play">Play</button>
   <button id="stop">Stop</button>
   <button id="faster">Faster</button>
   <button id="slower">Slower</button>
- <input type="number" value="848" id="spritelength">
-  <button class="slice">1</button>
-  <button class="slice">1</button>
-  <button class="slice">1</button>
-  <button class="slice">1</button>
-  <button class="slice">1</button>
-  <button class="slice">1</button>
+   <input type="number" value="437" id="spritelength">
+  <br>
+
+  <div class="break">
+
+  </div>
   <script src="howler.min.js"></script>
   <script>
   var full_break = new Howl({
       src: ['amen.wav'],
-      loop: true,
+      loop: true
     });
-    var sprite = new Howl({
-        src: ['amen.wav'],
+  var sprite = generateSprite(875);
+  drawSlices(875);
+
+  function drawSlices(size){
+    var total = 7000/size;
+    document.querySelector('.break').innerHTML = '<img src="amen.png">';
+    for(var i=0; i<total; i++){
+      var newSlice = document.createElement('div');
+      newSlice.className = "slice";
+      newSlice.style.left = (i * size / 10) + "px";
+      newSlice.style.width = (size / 10) + "px";
+      document.querySelector('.break').appendChild(newSlice);
+    }
+
+    [].forEach.call(document.querySelectorAll('.slice'), function(slice, index) {
+      slice.addEventListener('click', function(){
+        sprite.stop();
+        sprite.play('slice' + index);
+        console.log(index);
       });
+    });
+  }
+
+  function generateSprite(size){
+    return new Howl({
+      src: ['amen.wav'],
+      sprite: getSlices(size)
+    });
+  }
+
+  function getSlices(size){
+    var total = 7000/size;
+    var slices = {};
+    for(var i=0; i< total; i++){
+      slices['slice' + i] = [i * size, size, true];
+    }
+    return slices;
+  }
 
   spritelength.addEventListener('input', function(){
     console.log("Spritelength changed: " + spritelength.value)
     var length = parseInt(spritelength.value);
-    var slices = {};
-    for(var i=0; i< 5; i++){
-      slices['slice' + i] = [i * length, length];
-    }
 
-    sprite = new Howl({
-      src: ['amen.wav'],
-      sprite: slices
-    });
-    console.log(slices);
   })
 
   document.getElementById('play').addEventListener('click', function(){
@@ -51,13 +101,6 @@
   document.getElementById('stop').addEventListener('click', function(){
     full_break.stop();
     sprite.stop();
-});
-
-[].forEach.call(document.querySelectorAll('.slice'), function(slice, i){
-  slice.addEventListener('click', function(){
-    full_break.stop();
-    sprite.play('slice'+ i);
-  });
 });
 
 faster.addEventListener('click', function(){
