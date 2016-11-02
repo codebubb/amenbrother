@@ -8,14 +8,67 @@
 </head>
 <body>
   <button id="play">Play</button>
+  <button id="stop">Stop</button>
+  <button id="faster">Faster</button>
+  <button id="slower">Slower</button>
+ <input type="number" value="848" id="spritelength">
+  <button class="slice">1</button>
+  <button class="slice">1</button>
+  <button class="slice">1</button>
+  <button class="slice">1</button>
+  <button class="slice">1</button>
+  <button class="slice">1</button>
   <script src="howler.min.js"></script>
   <script>
   var full_break = new Howl({
-      src: ['amen.wav']
+      src: ['amen.wav'],
+      loop: true,
     });
-  play.addEventListener('click', function(){
-    full_break.play();
+    var sprite = new Howl({
+        src: ['amen.wav'],
+      });
+
+  spritelength.addEventListener('input', function(){
+    console.log("Spritelength changed: " + spritelength.value)
+    var length = parseInt(spritelength.value);
+    var slices = {};
+    for(var i=0; i< 5; i++){
+      slices['slice' + i] = [i * length, length];
+    }
+
+    sprite = new Howl({
+      src: ['amen.wav'],
+      sprite: slices
+    });
+    console.log(slices);
   })
+
+  document.getElementById('play').addEventListener('click', function(){
+    if(!full_break.playing()){
+    full_break.play();
+    }
+  });
+  document.getElementById('stop').addEventListener('click', function(){
+    full_break.stop();
+    sprite.stop();
+});
+
+[].forEach.call(document.querySelectorAll('.slice'), function(slice, i){
+  slice.addEventListener('click', function(){
+    full_break.stop();
+    sprite.play('slice'+ i);
+  });
+});
+
+faster.addEventListener('click', function(){
+
+    full_break.rate(full_break.rate() + .01);
+    sprite.rate(full_break.rate() + .01);
+});
+slower.addEventListener('click', function(){
+  full_break.rate(full_break.rate() - .01);
+  sprite.rate(full_break.rate() - .01);
+})
   </script>
 </body>
 </html>
