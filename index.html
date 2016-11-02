@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Amen Brother</title>
+</head>
+<body>
+  <button id="play">Play</button>
+  <script src="howler.min.js"></script>
+  <script>
+  var full_break = new Howl({
+      src: ['amen.wav']
+    });
+  play.addEventListener('click', function(){
+    full_break.play();
+  })
+  </script>
+</body>
+</html>
