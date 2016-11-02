@@ -36,7 +36,8 @@
   <button id="stop">Stop</button>
   <button id="faster">Faster</button>
   <button id="slower">Slower</button>
-   <input type="number" value="437" id="spritelength">
+  <input type="number" value="437" id="spritelength">
+  <button id="update">Update</button>
   <br>
 
   <div class="break">
@@ -50,6 +51,12 @@
     });
   var sprite = generateSprite(875);
   drawSlices(875);
+
+  update.addEventListener('click', function(){
+    var size = parseInt(document.getElementById('spritelength').value);
+    sprite = generateSprite(size);
+    drawSlices(size);
+  });
 
   function drawSlices(size){
     var total = 7000/size;
