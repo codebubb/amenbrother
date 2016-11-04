@@ -33,6 +33,7 @@
 </head>
 <body>
   <button id="play">Play</button>
+  <button id="playsprite">Play</button>
   <button id="stop">Stop</button>
   <button id="faster">Faster</button>
   <button id="slower">Slower</button>
@@ -94,11 +95,9 @@
     return slices;
   }
 
-  spritelength.addEventListener('input', function(){
-    console.log("Spritelength changed: " + spritelength.value)
-    var length = parseInt(spritelength.value);
-
-  })
+  playsprite.addEventListener('click', function(){
+    sprite.play();
+  });
 
   document.getElementById('play').addEventListener('click', function(){
     if(!full_break.playing()){
